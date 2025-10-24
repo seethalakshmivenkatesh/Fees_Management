@@ -2,16 +2,15 @@ import React from "react";
 import FirstSection from "./components/FirstSection";
 import About from "./components/About";
 import Service from "./components/Service";
+import Carousel from "./components/secondsection";
 function Home() {
   return (
     <div>
-      <>
-        <FirstSection />
-        <About />
-        <Service />
-        <Carousel />
-      </>
+      <FirstSection />
+      <About />
+      <Service />
+      <Carousel />
     </div>
   );
 }
-export default Home();
+export default Home;

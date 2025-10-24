@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+
 import img1 from "../assets/Images/img1.png";
 import img2 from "../assets/Images/img2.png";
 import img3 from "../assets/Images/img3.png";
 import img4 from "../assets/Images/img4.png";
 
 const slides = [img1, img2, img3, img4];
-
-export default function Carousel() {
+const Carousel = () => {
   const [Current, setCurrent] = useState(0);
 
   useEffect(() => {
@@ -27,4 +26,5 @@ export default function Carousel() {
       />
     </div>
   );
-}
+};
+export default Carousel;

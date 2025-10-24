@@ -9,9 +9,9 @@ function Home() {
         <FirstSection />
         <About />
         <Service />
+        <Carousel />
       </>
     </div>
   );
 }
-
-export default Home;
+export default Home();

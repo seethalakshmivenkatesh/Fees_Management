@@ -1,69 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Autocomplete from "@mui/material/Autocomplete";
 import img from "../assets/Images/bgimage.png";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { data, useNavigate } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
 
-  const [college, setCollege] = useState("");
-  const [department, setDepartment] = useState("");
+  const [institutions, setInstitutions] = useState([]);
+  const [colleges, setColleges] = useState([]);
+  const [selectedInstitution, setSelectedInstitution] = useState(null);
+  const [selectedCollege, setSelectedCollege] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [role, setRole] = useState("");s
-  const users = [
-    {
-      email: "e22@gmail.com",
-      password: "123",
-      role: "student",
-      college: "MIT College of Engineering",
-      department: "Engineering",
-    },
-  ];
-  const colleges = [
-    "MIT College of Engineering",
-    "IIT Madras",
-    "VIT University",
-    "SRM Institute of Science and Technology",
-    "Anna University",
-    "PSG College of Technology",
-  ];
 
-  const departmentsByCollege = {
-    "MIT College of Engineering": [
-      "Engineering",
-      "Pharmacy",
-      "Nursing",
-      "Allied Health Science",
-      "Health Inspector",
-    ],
-    "IIT Madras": ["Engineering", "Sciences", "Humanities"],
-    "VIT University": ["Engineering", "Pharmacy", "Management"],
-    "SRM Institute of Science and Technology": [
-      "Engineering",
-      "Pharmacy",
-      "Nursing",
-      "Medical",
-    ],
-    "Anna University": ["Engineering", "Architecture"],
-    "PSG College of Technology": ["Engineering", "Management"],
-  };
-  const handleLogin = () => {
-    const user = users.find(
-      (u) =>
-        u.email === email &&
-        u.password === password &&
-        u.college === college &&
-        u.department === department
-    );
-    if (user) {
-      if (user.role === "student") navigate("/students");
-      // else if (role === "staff") navigate("/staff-dashboard");
-      // else if (role === "admin") navigate("/admin-dashboard");
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/institutions")
+      .then((res) => {
+        setInstitutions(res.data);
+      })
+      .catch((err) => {
+        console.error("Error fetching institutions:", err);
+        alert("Failed to load institutions.");
+      });
+  }, []);
+
+  useEffect(() => {
+    if (selectedInstitution?._id) {
+      axios
+        .get(
+          `http://localhost:5000/api/institutions/${selectedInstitution._id}/colleges`
+        )
+
+        .then((res) => setColleges(res.data))
+        .catch((err) => {
+          console.error("Error fetching colleges:", err);
+          alert("Failed to load colleges.");
+        });
     } else {
-      alert("Login failed. Please check your credentials.");
+      setColleges([]);
+    }
+  }, [selectedInstitution]);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (email && password && selectedInstitution && selectedCollege) {
+      navigate("/students");
+    } else {
+      alert("Please fill all fields!");
     }
   };
 
@@ -77,26 +64,29 @@ function Login() {
             College Login Portal
           </h2>
 
-          <form className="flex flex-col gap-4">
+          <form className="flex flex-col gap-4" onSubmit={handleLogin}>
             <Autocomplete
-              options={colleges}
-              value={college}
+              options={institutions}
+              getOptionLabel={(option) => option.name || ""}
+              value={selectedInstitution}
               onChange={(e, newValue) => {
-                setCollege(newValue);
-                setDepartment("");
+                setSelectedInstitution(newValue);
+                setSelectedCollege("");
               }}
               renderInput={(params) => (
-                <TextField {...params} label="Select Your College" required />
+                <TextField {...params} label="Select Institution" required />
               )}
             />
 
-            {college && (
+            {colleges.length > 0 && (
               <Autocomplete
-                options={departmentsByCollege[college] || []}
-                value={department}
-                onChange={(e, newValue) => setDepartment(newValue)}
+                disabled={!selectedInstitution}
+                options={colleges}
+                value={selectedCollege}
+                getOptionLabel={(option) => option}
+                onChange={(e, newValue) => setSelectedCollege(newValue)}
                 renderInput={(params) => (
-                  <TextField {...params} label="Select Department" required />
+                  <TextField {...params} label="Select College" required />
                 )}
               />
             )}
@@ -104,6 +94,7 @@ function Login() {
             <TextField
               label="Email"
               variant="outlined"
+              autoComplete="username"
               fullWidth
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -114,6 +105,7 @@ function Login() {
               label="Password"
               variant="outlined"
               type="password"
+              autoComplete="current-password"
               fullWidth
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -125,18 +117,11 @@ function Login() {
               color="primary"
               fullWidth
               className="mt-2 !bg-indigo-600 hover:!bg-indigo-700"
-              onClick={handleLogin}
+              type="submit"
             >
               Sign In
             </Button>
           </form>
-
-          <p className="text-center text-sm text-gray-600 mt-4">
-            Forgot password?{" "}
-            <span className="text-indigo-600 cursor-pointer hover:underline">
-              Reset here
-            </span>
-          </p>
         </div>
       </div>
     </div>

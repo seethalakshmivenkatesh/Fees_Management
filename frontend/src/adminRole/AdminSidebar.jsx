@@ -4,10 +4,9 @@ import {
   LayoutDashboard,
   University,
   Building2,
+  Layers3,
   Users,
-  CreditCard,
-  Upload,
-  FileSpreadsheet,
+  FileText,
   Bell,
   Settings,
   Menu,
@@ -28,34 +27,24 @@ const AdminSidebar = () => {
       icon: <LayoutDashboard size={20} />,
     },
     {
-      name: "Institutions",
-      path: "/admin/institutions",
+      name: "Institutions & Colleges",
+      path: "/admin/institutions-colleges",
       icon: <University size={20} />,
     },
     {
-      name: "Colleges",
-      path: "/admin/colleges",
-      icon: <Building2 size={20} />,
+      name: "Departments & Years",
+      path: "/admin/departments-years",
+      icon: <Layers3 size={20} />,
     },
     {
-      name: "Departments",
-      path: "/admin/departments",
-      icon: <FileSpreadsheet size={20} />,
-    },
-    {
-      name: "Manage Students",
-      path: "/admin/manage-students",
+      name: "Students & Fees",
+      path: "/admin/students-fees",
       icon: <Users size={20} />,
     },
     {
-      name: "Manage Fees",
-      path: "/admin/manage-fees",
-      icon: <CreditCard size={20} />,
-    },
-    {
-      name: "Upload Excel/Sheet",
-      path: "/admin/upload-excel",
-      icon: <Upload size={20} />,
+      name: "Reports",
+      path: "/admin/reports",
+      icon: <FileText size={20} />,
     },
     {
       name: "Notifications",
@@ -77,7 +66,7 @@ const AdminSidebar = () => {
           isOpen ? "w-64" : "w-16"
         }`}
       >
-        {/* Header Section */}
+        {/* Header */}
         <div className="flex items-center justify-between p-4 border-b text-blue-600">
           {isOpen && <span className="text-xl font-bold">Admin Panel</span>}
           <button
@@ -88,7 +77,7 @@ const AdminSidebar = () => {
           </button>
         </div>
 
-        {/* Menu Links */}
+        {/* Menu */}
         <nav className="flex-1 p-2 space-y-1">
           {menuItems.map((item) => (
             <Link

@@ -8,10 +8,12 @@ import Footer from "./components/Footer";
 function Home() {
   return (
     <div>
+      <Header />
       <FirstSection />
       <About />
       <Service />
       <Carousel />
+      <Footer />
     </div>
   );
 }

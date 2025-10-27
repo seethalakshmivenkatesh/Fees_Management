@@ -4,11 +4,12 @@ import Button from "@mui/material/Button";
 import Autocomplete from "@mui/material/Autocomplete";
 import img from "../assets/Images/bgimage.png";
 import axios from "axios";
-import { data, useNavigate } from "react-router-dom";
+import { data, useNavigate, useLocation } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const role = location.state?.role || "Student";
   const [institutions, setInstitutions] = useState([]);
   const [colleges, setColleges] = useState([]);
   const [selectedInstitution, setSelectedInstitution] = useState(null);
@@ -47,10 +48,18 @@ function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (email && password && selectedInstitution && selectedCollege) {
-      navigate("/students");
-    } else {
+    if (!email || !password || !selectedInstitution || !selectedCollege) {
       alert("Please fill all fields!");
+      return;
+    }
+
+    // --- Simple frontend role-based navigation ---
+    if (role === "Admin") {
+      navigate("/admin"); // go to admin dashboard
+    } else if (role === "Staff") {
+      navigate("/staff"); // staff page (optional)
+    } else {
+      navigate("/students"); // student page
     }
   };
 

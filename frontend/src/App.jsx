@@ -49,6 +49,8 @@ import PayFeesPage from "./roles/Feepage";
 // Admin Imports
 import AdminSidebar from "./adminRole/AdminSidebar";
 import Dashboard from "./adminRole/Dashboard";
+
+import ManageStudentFees from "./ManageStudentFees";
 // import ManageStudents from "./admin/ManageStudents";
 // import ManageFees from "./admin/ManageFees";
 // import UploadExcel from "./admin/UploadExcel";
@@ -75,9 +77,10 @@ function App() {
             <Route index element={<Navigate to="/admin/dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="Institutions" element={<InstitutionsColleges />} />
-            {/* <Route path="manage-students" element={<ManageStudents />} />
-            <Route path="manage-fees" element={<ManageFees />} />
-            <Route path="upload-excel" element={<UploadExcel />} /> */}
+
+            <Route path="manage-students" element={<ManageStudentFees />} />
+
+            {/* <Route path="upload-excel" element={<UploadExcel />} /> */}
           </Route>
         </Routes>
       </BrowserRouter>

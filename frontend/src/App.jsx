@@ -35,12 +35,9 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
+// General Pages
 import Home from "./Home";
 import Login from "./pages/login";
-import StudentDashboard from "./roles/Students";
-import Profile from "./roles/profile";
-import SidebarLayout from "./SideBar";
-import { Navigate } from "react-router-dom";
 import InstitutionsColleges from "./InstitutionsColleges";
 
 // Student Imports
@@ -52,9 +49,9 @@ import PayFeesPage from "./roles/Feepage";
 // Admin Imports
 import AdminSidebar from "./adminRole/AdminSidebar";
 import Dashboard from "./adminRole/Dashboard";
-//import ManageStudents from "./admin/ManageStudents";
-//import ManageFees from "./admin/ManageFees";
-//import UploadExcel from "./admin/UploadExcel";
+// import ManageStudents from "./admin/ManageStudents";
+// import ManageFees from "./admin/ManageFees";
+// import UploadExcel from "./admin/UploadExcel";
 
 function App() {
   return (
@@ -72,15 +69,12 @@ function App() {
             <Route path="pay-fee" element={<PayFeesPage />} />
             <Route path="profile" element={<Profile />} />
           </Route>
-          <Route
-            path="/InstitutionsColleges"
-            element={<InstitutionsColleges />}
-          />
 
           {/* ---------------------- ADMIN ROUTES ---------------------- */}
           <Route path="/admin" element={<AdminSidebar />}>
             <Route index element={<Navigate to="/admin/dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="Institutions" element={<InstitutionsColleges />} />
             {/* <Route path="manage-students" element={<ManageStudents />} />
             <Route path="manage-fees" element={<ManageFees />} />
             <Route path="upload-excel" element={<UploadExcel />} /> */}

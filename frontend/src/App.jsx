@@ -49,8 +49,11 @@ import PayFeesPage from "./roles/Feepage";
 // Admin Imports
 import AdminSidebar from "./adminRole/AdminSidebar";
 import Dashboard from "./adminRole/Dashboard";
+import Report from "./Report";
+import Notifications from "./Notification";
+import Settings from "./Settings";
+import Logout from "./Logout";
 
-import ManageStudentFees from "./ManageStudentFees";
 // import ManageStudents from "./admin/ManageStudents";
 // import ManageFees from "./admin/ManageFees";
 // import UploadExcel from "./admin/UploadExcel";
@@ -78,7 +81,10 @@ function App() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="Institutions" element={<InstitutionsColleges />} />
 
-            <Route path="manage-students" element={<ManageStudentFees />} />
+            <Route path="Reports" element={<Report />} />
+            <Route path="Notifications" element={<Notifications />} />
+            <Route path="Settings" element={<Settings />} />
+            <Route path="Logout" element={<Logout />} />
 
             {/* <Route path="upload-excel" element={<UploadExcel />} /> */}
           </Route>

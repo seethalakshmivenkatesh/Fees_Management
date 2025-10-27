@@ -38,7 +38,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // General Pages
 import Home from "./Home";
 import Login from "./pages/login";
-import InstitutionsColleges from "./InstitutionsColleges";
 
 // Student Imports
 import SidebarLayout from "./SideBar";
@@ -49,6 +48,8 @@ import PayFeesPage from "./roles/Feepage";
 // Admin Imports
 import AdminSidebar from "./adminRole/AdminSidebar";
 import Dashboard from "./adminRole/Dashboard";
+import CollegesSection from "./adminRole/InstitutionsColleges";
+import StudentsFeesManagement from "./adminRole/studentFeeManagement";
 // import ManageStudents from "./admin/ManageStudents";
 // import ManageFees from "./admin/ManageFees";
 // import UploadExcel from "./admin/UploadExcel";
@@ -74,7 +75,8 @@ function App() {
           <Route path="/admin" element={<AdminSidebar />}>
             <Route index element={<Navigate to="/admin/dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
-            <Route path="Institutions" element={<InstitutionsColleges />} />
+            <Route path="Institutions" element={<CollegesSection />} />
+            <Route path="manage-fees" element={<StudentsFeesManagement />} />
             {/* <Route path="manage-students" element={<ManageStudents />} />
             <Route path="manage-fees" element={<ManageFees />} />
             <Route path="upload-excel" element={<UploadExcel />} /> */}

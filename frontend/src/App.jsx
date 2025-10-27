@@ -50,6 +50,8 @@ import AdminSidebar from "./adminRole/AdminSidebar";
 import Dashboard from "./adminRole/Dashboard";
 import CollegesSection from "./adminRole/InstitutionsColleges";
 import StudentsFeesManagement from "./adminRole/studentFeeManagement";
+
+import ManageStudentFees from "./ManageStudentFees";
 // import ManageStudents from "./admin/ManageStudents";
 // import ManageFees from "./admin/ManageFees";
 // import UploadExcel from "./admin/UploadExcel";
@@ -80,6 +82,11 @@ function App() {
             {/* <Route path="manage-students" element={<ManageStudents />} />
             <Route path="manage-fees" element={<ManageFees />} />
             <Route path="upload-excel" element={<UploadExcel />} /> */}
+            <Route path="Institutions" element={<InstitutionsColleges />} />
+
+            <Route path="manage-students" element={<ManageStudentFees />} />
+
+            {/* <Route path="upload-excel" element={<UploadExcel />} /> */}
           </Route>
         </Routes>
       </BrowserRouter>

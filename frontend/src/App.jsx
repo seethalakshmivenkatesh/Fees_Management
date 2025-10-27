@@ -3,11 +3,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./Home";
 import Login from "./pages/login";
-import AdminDashboard from "./Admin";
 import StudentDashboard from "./roles/Students";
 import Profile from "./roles/profile";
 import SidebarLayout from "./SideBar";
 import { Navigate } from "react-router-dom";
+import InstitutionsColleges from "./InstitutionsColleges";
 function App() {
   return (
     <div>
@@ -21,7 +21,10 @@ function App() {
             <Route path="dashboard" element={<StudentDashboard />} />
             <Route path="profile" element={<Profile />} />
           </Route>
-          <Route path="/admin" element={<AdminDashboard />} />
+          <Route
+            path="/InstitutionsColleges"
+            element={<InstitutionsColleges />}
+          />
         </Routes>
       </BrowserRouter>
     </div>

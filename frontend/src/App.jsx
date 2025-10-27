@@ -18,6 +18,14 @@ import InstitutionsColleges from "./adminRole/InstitutionsColleges";
 import DepartmentsYears from "./adminRole/DepartmentsYears";
 import StudentsFeesManagement from "./adminRole/studentFeeManagement";
 import ManageStudentFees from "./ManageStudentFees";
+import Report from "./Report";
+import Notifications from "./Notification";
+import Settings from "./Settings";
+import Logout from "./Logout";
+
+// import ManageStudents from "./admin/ManageStudents";
+// import ManageFees from "./admin/ManageFees";
+// import UploadExcel from "./admin/UploadExcel";
 
 function App() {
   return (
@@ -49,6 +57,12 @@ function App() {
             <Route path="students-fees" element={<StudentsFeesManagement />} />
 
             <Route path="manage-students" element={<ManageStudentFees />} />
+            <Route path="Reports" element={<Report />} />
+            <Route path="Notifications" element={<Notifications />} />
+            <Route path="Settings" element={<Settings />} />
+            <Route path="Logout" element={<Logout />} />
+
+            {/* <Route path="upload-excel" element={<UploadExcel />} /> */}
           </Route>
         </Routes>
       </BrowserRouter>

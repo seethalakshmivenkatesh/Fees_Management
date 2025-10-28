@@ -6,6 +6,7 @@ import Carousel from "./components/secondsection";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Contact from "./components/contact";
+import PricingSection from "./components/Pricing";
 function Home() {
   return (
     <div>
@@ -21,6 +22,7 @@ function Home() {
       <div id="contact">
         <Contact />
       </div>
+      <PricingSection />
       <Footer />
     </div>
   );

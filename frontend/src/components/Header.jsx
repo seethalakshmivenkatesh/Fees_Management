@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import { Link as ScrollLink } from "react-scroll";
 function Header() {
   const [loginOpen, setLoginOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -28,21 +28,21 @@ function Header() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex flex-row items-center gap-8 text-white font-serif cursor-pointer relative">
-          <Link to={"/"} className="hover:text-[#4FC3F7]">
+          <ScrollLink to={"/"} className="hover:text-[#4FC3F7]">
             HOME
-          </Link>
-          <Link to={"/"} className="hover:text-[#4FC3F7]">
+          </ScrollLink>
+          <ScrollLink to="about" className="hover:text-[#4FC3F7]">
             ABOUT
-          </Link>
-          <Link to={"/"} className="hover:text-[#4FC3F7]">
+          </ScrollLink>
+          <ScrollLink to="services" className="hover:text-[#4FC3F7]">
             SERVICES
-          </Link>
-          <Link to={"/"} className="hover:text-[#4FC3F7]">
+          </ScrollLink>
+          <ScrollLink to="pricing" className="hover:text-[#4FC3F7]">
             PRICING
-          </Link>
-          <Link to={"/"} className="hover:text-[#4FC3F7]">
+          </ScrollLink>
+          <ScrollLink to="contact" className="hover:text-[#4FC3F7]">
             CONTACT
-          </Link>
+          </ScrollLink>
 
           {/* Login Dropdown */}
           <div className="relative">

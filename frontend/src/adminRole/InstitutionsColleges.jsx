@@ -1,26 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import background from "../assets/Images/background.png";
 
 const InstitutionsColleges = () => {
-  // Sample frontend-only data (replace with backend fetch later)
-  const [institutions, setInstitutions] = useState([
-    {
-      id: 1,
-      name: "Sunrise University",
-      colleges: [
-        { id: 1, name: "Engineering College", departments: 4, students: 1200 },
-        { id: 2, name: "Nursing College", departments: 2, students: 500 },
-      ],
-    },
-    {
-      id: 2,
-      name: "Green Valley University",
-      colleges: [
-        { id: 3, name: "Pharmacy College", departments: 3, students: 400 },
-      ],
-    },
-  ]);
-
+  const [institutions, setInstitutions] = useState([]);
   const [selectedInstitution, setSelectedInstitution] = useState("");
   const [showAddCollege, setShowAddCollege] = useState(false);
   const [newCollege, setNewCollege] = useState({
@@ -29,37 +12,51 @@ const InstitutionsColleges = () => {
     students: 0,
   });
 
-  const selectedData = institutions.find(
-    (inst) => inst.id === Number(selectedInstitution)
-  );
+  // ✅ Fetch Institutions (on mount)
+  useEffect(() => {
+    fetchInstitutions();
+  }, []);
 
-  const handleAddCollege = () => {
-    if (!newCollege.name) return alert("Enter college name");
-
-    const updatedInstitutions = institutions.map((inst) =>
-      inst.id === Number(selectedInstitution)
-        ? {
-            ...inst,
-            colleges: [...inst.colleges, { id: Date.now(), ...newCollege }],
-          }
-        : inst
-    );
-
-    setInstitutions(updatedInstitutions);
-    setShowAddCollege(false);
-    setNewCollege({ name: "", departments: 0, students: 0 });
+  const fetchInstitutions = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/institutions");
+      // ✅ Ensure each institution has a colleges array
+      const normalized = res.data.map((inst) => ({
+        ...inst,
+        colleges: inst.colleges || [],
+      }));
+      setInstitutions(normalized);
+    } catch (err) {
+      console.error("Error fetching institutions:", err);
+    }
   };
 
-  const handleDeleteCollege = (collegeId) => {
-    const updatedInstitutions = institutions.map((inst) =>
-      inst.id === Number(selectedInstitution)
-        ? {
-            ...inst,
-            colleges: inst.colleges.filter((c) => c.id !== collegeId),
-          }
-        : inst
-    );
-    setInstitutions(updatedInstitutions);
+  const selectedData = institutions.find(
+    (inst) => inst._id === selectedInstitution
+  );
+
+  const handleAddCollege = async () => {
+    if (!newCollege.name) return alert("Enter college name");
+    try {
+      await axios.post(
+        `http://localhost:5000/api/colleges/${selectedInstitution}`,
+        newCollege
+      );
+      fetchInstitutions();
+      setShowAddCollege(false);
+      setNewCollege({ name: "", departments: 0, students: 0 });
+    } catch (err) {
+      console.error("Error adding college:", err);
+    }
+  };
+
+  const handleDeleteCollege = async (collegeId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/colleges/${collegeId}`);
+      fetchInstitutions();
+    } catch (err) {
+      console.error("Error deleting college:", err);
+    }
   };
 
   return (
@@ -67,14 +64,12 @@ const InstitutionsColleges = () => {
       className="relative min-h-screen bg-cover bg-center bg-no-repeat flex"
       style={{ backgroundImage: `url(${background})` }}
     >
-      {/* Content Container */}
       <div className="relative flex-1 bg-white/80 backdrop-blur-md p-8 m-8 rounded-2xl shadow-lg">
-        {/* Header */}
         <h1 className="text-3xl font-bold text-gray-800 mb-6 flex items-center gap-2">
           🏛️ Institution & College Management
         </h1>
 
-        {/* Institution Selection Section */}
+        {/* Institution Selector */}
         <div className="bg-gray-50 border rounded-xl p-5 mb-8 shadow-sm">
           <h2 className="text-xl font-semibold text-gray-700 mb-4">
             Select Institution
@@ -87,26 +82,24 @@ const InstitutionsColleges = () => {
             >
               <option value="">-- Select Institution --</option>
               {institutions.map((inst) => (
-                <option key={inst.id} value={inst.id}>
+                <option key={inst._id} value={inst._id}>
                   {inst.name}
                 </option>
               ))}
             </select>
-
             <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
               ➕ Add Institution
             </button>
           </div>
         </div>
 
-        {/* Colleges List Section */}
+        {/* Colleges Table */}
         {selectedInstitution && (
           <div className="bg-white rounded-xl shadow-md p-6 border">
             <h2 className="text-xl font-semibold text-gray-800 mb-6">
-              Colleges Under “{selectedData?.name}”
+              Colleges Under “{selectedData?.name || "Selected Institution"}”
             </h2>
 
-            {/* Table */}
             <div className="overflow-x-auto">
               <table className="w-full border-collapse rounded-lg overflow-hidden">
                 <thead>
@@ -118,10 +111,10 @@ const InstitutionsColleges = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {selectedData?.colleges.length > 0 ? (
+                  {(selectedData?.colleges ?? []).length > 0 ? (
                     selectedData.colleges.map((college) => (
                       <tr
-                        key={college.id}
+                        key={college._id}
                         className="hover:bg-gray-50 transition text-gray-700"
                       >
                         <td className="p-3 border">{college.name}</td>
@@ -139,7 +132,7 @@ const InstitutionsColleges = () => {
                             Edit
                           </button>
                           <button
-                            onClick={() => handleDeleteCollege(college.id)}
+                            onClick={() => handleDeleteCollege(college._id)}
                             className="text-red-600 hover:underline"
                           >
                             Delete
@@ -161,16 +154,12 @@ const InstitutionsColleges = () => {
               </table>
             </div>
 
-            {/* Buttons */}
             <div className="mt-6 flex gap-4">
               <button
                 onClick={() => setShowAddCollege(true)}
                 className="bg-green-600 text-white px-5 py-2 rounded-md hover:bg-green-700 transition"
               >
                 ➕ Add College
-              </button>
-              <button className="bg-red-500 text-white px-5 py-2 rounded-md hover:bg-red-600 transition">
-                🗑️ Delete College
               </button>
             </div>
           </div>
@@ -184,25 +173,20 @@ const InstitutionsColleges = () => {
                 ➕ Add New College
               </h2>
 
-              <label className="block mb-2 text-gray-700 font-medium">
-                College Name
-              </label>
               <input
                 type="text"
-                className="w-full border p-2 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full border p-2 rounded-md mb-3"
+                placeholder="College Name"
                 value={newCollege.name}
                 onChange={(e) =>
                   setNewCollege({ ...newCollege, name: e.target.value })
                 }
-                placeholder="Enter college name"
               />
 
-              <label className="block mb-2 text-gray-700 font-medium">
-                Departments Count
-              </label>
               <input
                 type="number"
-                className="w-full border p-2 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full border p-2 rounded-md mb-3"
+                placeholder="Departments"
                 value={newCollege.departments}
                 onChange={(e) =>
                   setNewCollege({
@@ -212,12 +196,10 @@ const InstitutionsColleges = () => {
                 }
               />
 
-              <label className="block mb-2 text-gray-700 font-medium">
-                Students Count
-              </label>
               <input
                 type="number"
-                className="w-full border p-2 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full border p-2 rounded-md mb-3"
+                placeholder="Students"
                 value={newCollege.students}
                 onChange={(e) =>
                   setNewCollege({

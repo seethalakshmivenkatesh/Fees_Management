@@ -5,14 +5,22 @@ import Service from "./components/Service";
 import Carousel from "./components/secondsection";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Contact from "./components/contact";
 function Home() {
   return (
     <div>
       <Header />
       <FirstSection />
-      <About />
-      <Service />
+      <div id="about">
+        <About />
+      </div>
+      <div id="services">
+        <Service />
+      </div>
       <Carousel />
+      <div id="contact">
+        <Contact />
+      </div>
       <Footer />
     </div>
   );

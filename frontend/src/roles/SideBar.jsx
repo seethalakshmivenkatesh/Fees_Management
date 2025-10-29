@@ -9,13 +9,13 @@ import {
   Bell,
   LifeBuoy,
   User,
-  Menu, // Hamburger icon
-  X, // Close icon
+  Menu,
+  X,
 } from "lucide-react";
 
 const SidebarLayout = () => {
   const location = useLocation();
-  const [isOpen, setIsOpen] = useState(true); // sidebar open/close state
+  const [isOpen, setIsOpen] = useState(true);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
@@ -40,7 +40,6 @@ const SidebarLayout = () => {
       path: "/students/fee-structure",
       icon: <BookOpen size={20} />,
     },
-
     {
       name: "Scholarship",
       path: "/students/scholarship",
@@ -64,34 +63,38 @@ const SidebarLayout = () => {
   ];
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gradient-to-br from-purple-50 via-white to-purple-100">
       {/* Sidebar */}
       <aside
-        className={`bg-white shadow-lg flex flex-col transition-all duration-300 ${
+        className={`bg-gradient-to-b from-purple-700 to-indigo-700 text-white shadow-2xl flex flex-col transition-all duration-300 ${
           isOpen ? "w-64" : "w-16"
         }`}
       >
-        {/* Top: Logo + Toggle Button */}
-        <div className="flex items-center justify-between p-4 border-b text-blue-600">
-          {isOpen && <span className="text-xl font-bold">Student Portal</span>}
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b border-purple-500">
+          {isOpen && (
+            <span className="text-lg font-semibold tracking-wide">
+              Student Portal
+            </span>
+          )}
           <button
             onClick={toggleSidebar}
-            className="p-1 rounded hover:bg-gray-200"
+            className="p-2 rounded-md hover:bg-purple-600 transition-colors"
           >
             {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
 
         {/* Menu */}
-        <nav className="flex-1 p-2 space-y-1">
+        <nav className="flex-1 p-3 space-y-2">
           {menuItems.map((item) => (
             <Link
               key={item.name}
               to={item.path}
-              className={`flex items-center gap-3 p-2 rounded-lg transition ${
+              className={`flex items-center gap-3 p-2 rounded-lg transition-all duration-200 ${
                 location.pathname === item.path
-                  ? "bg-blue-100 text-blue-700 font-semibold"
-                  : "text-gray-700 hover:bg-blue-50"
+                  ? "bg-white text-purple-700 font-semibold shadow-md"
+                  : "hover:bg-purple-600 text-white/90 hover:text-white"
               }`}
             >
               {item.icon}
@@ -101,7 +104,7 @@ const SidebarLayout = () => {
         </nav>
       </aside>
 
-      {/* Main content */}
+      {/* Main Content */}
       <main className="flex-1 p-6 overflow-y-auto">
         <Outlet />
       </main>

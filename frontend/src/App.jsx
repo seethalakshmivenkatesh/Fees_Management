@@ -6,7 +6,7 @@ import Home from "./Home";
 import Login from "./pages/login";
 
 // Student Imports
-import SidebarLayout from "./SideBar";
+import SidebarLayout from "./roles/SideBar";
 import StudentDashboard from "./roles/Students";
 import Profile from "./roles/profile";
 import PayFeesPage from "./roles/Feepage";
